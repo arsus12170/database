@@ -23,4 +23,5 @@ postgres=# SELECT * FROM students;
 
 postgres=# DROP TABLE students;
 DROP TABLE
+
 postgres=#
