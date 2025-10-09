@@ -1,0 +1,39 @@
+Server [localhost]:
+Database [postgres]:
+Port [5432]:
+Username [postgres]:
+Password for user postgres:
+psql (17.6)
+WARNING: Console code page (866) differs from Windows code page (1251)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# CREATE TABLE students (student_id SERIAL PRIMARY KEY, first_name VARCHAR(50), last_name VARCHAR(50), birth_date DATE);
+CREATE TABLE                                              ^
+postgres=# INSERT INTO students (first_name, last_name, birth_date) VALUES ('Aibek', 'Sharshenov', '2002-05-12');
+INSERT 0 1
+postgres=# INSERT INTO students (first_name, last_name, birth_date) VALUES ('Aibek', 'Sharshenov', '2002-05-12'), ('Ainura', 'Toktomamatova', '2001-09-23'), ('Bakyt', 'Mamatov', '2003-01-15'), ('Gulzat', 'Sultanova', '2001-04-11');
+INSERT 0 4
+postgres=# UPDATE students SET birth_date = '2002-06-05' WHERE first_name = 'Aibek' AND last_name = 'Sharshenov';
+UPDATE 2
+postgres=# DELETE FROM students WHERE first_name = 'Gulzat';
+DELETE 1
+postgres=# DELETE FROM students WHERE birth_date < '2002-01-01';
+DELETE 1
+postgres=# SELECT * FROM students;
+ student_id | first_name | last_name  | birth_date
+------------+------------+------------+------------
+          4 | Bakyt      | Mamatov    | 2003-01-15
+          1 | Aibek      | Sharshenov | 2002-06-05
+          2 | Aibek      | Sharshenov | 2002-06-05
+(3 rows)
+
+
+postgres=# UPDATE students SET last_name = 'Bekov' WHERE last_name IN ('Sharshenov', 'Mamatov');
+UPDATE 3
+postgres=# DELETE FROM students WHERE last_name IN ('Bekov');
+DELETE 3
+postgres=# DROP TABLE students;
+DROP TABLE
+postgres=#
