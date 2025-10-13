@@ -1,0 +1,114 @@
+Server [localhost]:
+Database [postgres]:
+Port [5432]:
+Username [postgres]:
+Password for user postgres:
+psql (17.6)
+WARNING: Console code page (866) differs from Windows code page (1251)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+                                           
+postgres=#  CREATE TABLE employees (emp_id SERIAL PRIMARY KEY, name VARCHAR(50), department VARCHAR(50), salary INT);
+CREATE TABLE
+postgres=# INSERT INTO employees (name, department, salary) VALUES ('Alex', 'Marketing', '300'), ('Levy', 'Accounting', '500');
+INSERT 0 2
+postgres=# SELECT * FROM employees;
+ emp_id | name | department | salary
+--------+------+------------+--------
+      1 | Alex | Marketing  |    300
+      2 | Levy | Accounting |    500
+(2 rows)
+
+
+postgres=# SELECT name, department FROM employees;
+ name | department
+------+------------
+ Alex | Marketing
+ Levy | Accounting
+(2 rows)
+
+
+postgres=# SELECT name, salary, salary * 0.1 AS potential_bonus FROM employees;
+ name | salary | potential_bonus
+------+--------+-----------------
+ Alex |    300 |            30.0
+ Levy |    500 |            50.0
+(2 rows)
+
+
+postgres=# SELECT name, salary FROM employees WHERE department = 'Marketing';
+ name | salary
+------+--------
+ Alex |    300
+(1 row)
+
+
+postgres=# INSERT INTO employees (name, department, salary) VALUES ('Magnus', 'Marketing', '450');
+INSERT 0 1
+postgres=# SELECT name, department FROM employees WHERE salary > 400 AND department = 'Marketing';
+  name  | department
+--------+------------
+ Magnus | Marketing
+(1 row)
+
+
+postgres=# SELECT name FROM employees WHERE salary BETWEEN 350 AND 600;
+  name
+--------
+ Levy
+ Magnus
+(2 rows)
+
+
+postgres=# SELECT name FROM employees WHERE name LIKE 'Le%';
+ name
+------
+ Levy
+(1 row)
+
+
+postgres=# SELECT department FROM employees WHERE department LIKE '%nting';
+ department
+------------
+ Accounting
+(1 row)
+
+
+postgres=# SELECT name FROM employees WHERE name ILIKE '%NTING';
+ name
+------
+(0 rows)
+
+
+postgres=# SELECT name FROM employees WHERE name ILIKE '%LEX';
+ name
+------
+ Alex
+(1 row)
+
+
+postgres=# SELECT name FROM employees WHERE name ~ '^[AB]';
+ name
+------
+ Alex
+(1 row)
+
+
+postgres=# SELECT name FROM employees WHERE emp_id IN (SELECT emp_id FROM employees WHERE salary < 500);
+  name
+--------
+ Alex
+ Magnus
+(2 rows)
+
+
+postgres=# SELECT name, salary, CASE WHEN salary > 400 THEN 'Senior' ELSE 'Junior' END AS employee_level FROM employees;
+  name  | salary | employee_level
+--------+--------+----------------
+ Alex   |    300 | Junior
+ Levy   |    500 | Senior
+ Magnus |    450 | Senior
+(3 rows)
+
+
